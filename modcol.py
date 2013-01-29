@@ -32,11 +32,11 @@ def handle_line(columns, args):
 
 
 def parse_args():
-    parser = ArgumentParser(description='An extension to the default GNU toolchain, allowing you to modify columns of csv-like files individually.')
+    parser = ArgumentParser(description='An extension to the default GNU toolchain, allowing you to modify columns of csv-like input.')
     parser.add_argument('-d', '--delimiter', default=',', help='The delimiter used to delimit columns, "," by default.')
     parser.add_argument('command', help='The command that will be run on the specified column.')
     parser.add_argument('column', type=int, help='The column that will be fed the command.')
-    parser.add_argument('files', nargs='*', default=[], help='The delimiter used to delimit columns.')
+    parser.add_argument('files', nargs='*', default=[], help='The input files to read. If no files are provided, read from stdin.')
     return parser.parse_args()
 
 
