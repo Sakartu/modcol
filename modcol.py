@@ -2,8 +2,8 @@
 from argparse import ArgumentParser
 import subprocess
 import shlex
+import csv
 import sys
-import re
 
 
 def main():
@@ -14,12 +14,12 @@ def main():
         args.files = map(open, args.files)
 
     for f in args.files:
-        for line in f:
+        reader = csv.reader(f, delimiter=args.delimiter)
+        for line in reader:
             handle_line(line, args)
 
 
-def handle_line(line, args):
-    columns = re.split(args.delimiter, line)
+def handle_line(columns, args):
     proc = subprocess.Popen(shlex.split(args.command), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     (outmsg, errmsg) = proc.communicate(columns[args.column - 1] + '\n')
     if errmsg:
@@ -27,7 +27,7 @@ def handle_line(line, args):
         sys.stderr.flush()
         sys.exit(1)
     columns[args.column - 1] = outmsg[:-1]  # remove newline
-    sys.stdout.write(args.delimiter.join(columns))
+    sys.stdout.write(args.delimiter.join(columns) + '\n')
     sys.stdout.flush()
 
 
