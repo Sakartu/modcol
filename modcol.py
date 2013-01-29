@@ -27,7 +27,8 @@ def handle_line(line, args):
         sys.stderr.flush()
         sys.exit(1)
     columns[args.column - 1] = outmsg[:-1]  # remove newline
-    print(args.delimiter.join(columns), end="")
+    sys.stdout.write(args.delimiter.join(columns))
+    sys.stdout.flush()
 
 
 def parse_args():
